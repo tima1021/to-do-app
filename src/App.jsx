@@ -7,6 +7,7 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [data, setData] = useState(tasks);
   const [filteredData, setFilteredData] = useState(data);
+  const [activeFilter, setActiveFilter] = useState("all");
 
   const completedNumber = data.filter(
     (task) => task.status === "completed"
@@ -49,13 +50,16 @@ function App() {
   const filterCompleted = () => {
     const filteredData = data.filter((task) => task.status === "completed");
     setFilteredData(filteredData);
+    setActiveFilter("completed");
   };
   const filterActive = () => {
     const filteredData = data.filter((task) => task.status === "active");
     setFilteredData(filteredData);
+    setActiveFilter("active");
   };
   const filteredClear = () => {
     setFilteredData(data);
+    setActiveFilter("all");
   };
   return (
     <div className=" w-screen h-screen flex justify-center  bg-[#F3F4F6] ">
@@ -77,18 +81,26 @@ function App() {
             <Button handleClick={createTask} text="Add" />
           </div>
           <div className="flex gap-[6px]">
-            <Button isSmall={true} text="All" handleClick={filteredClear} />
+            <Button 
+              isSmall={true} 
+              isGray={true}
+              text="All" 
+              handleClick={filteredClear}
+              isActive={activeFilter === "all"}
+            />
             <Button
               isSmall={true}
               isGray={true}
               text="Active"
               handleClick={filterActive}
+              isActive={activeFilter === "active"}
             />
             <Button
               isSmall={true}
               isGray={true}
               text="Completed"
               handleClick={filterCompleted}
+              isActive={activeFilter === "completed"}
             />
           </div>
           {filteredData.map((task) => {
@@ -132,3 +144,5 @@ function App() {
 }
 
 export default App;
+
+
